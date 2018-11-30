@@ -44,4 +44,31 @@ print('%.3f kg per second' % flow)
 """
 
 
-#
+# 增加时间换算的参数
+def flow_rate(weight_diff, time_diff, period):
+    return (weight_diff / time_diff) * period
+
+# 即便计算最简单的每秒流率，也要给 period 传入 1
+flow_per_second = flow_rate(weight_diff, time_diff, 1)
+
+# 给 period 参数定义默认值
+def flow_rate(weight_diff, time_diff, period=1):
+    return (weight_diff / time_diff) * period
+
+flow_per_second = flow_rate(weight_diff, time_diff)
+flow_per_hour = flow_rate(weight_diff, time_diff, period=3600)
+
+
+# 根据其它重量单位来计算流率
+def flow_rate(weight_diff, time_diff, 
+              period=1, units_per_kg=1):
+    return ((weight_diff * units_per_kg) / time_diff) * period
+
+# 原代码可以保持不变
+# 新代码可以通过指定关键字参数来使用新功能
+pounds_per_hour = flow_rate(weight_diff, time_diff,
+                            period=3600, 2.2)
+
+# 缺点：仍然可以通过位置参数的形式指定可选的关键字参数。
+# 这样容易让人困惑
+pounds_per_hour = flow_rate(weight_diff, time_diff, 3600, 2.2)
